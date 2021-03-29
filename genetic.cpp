@@ -1,16 +1,18 @@
 
 #include "genetic.h"
 
-genetic::genetic(int newcities)
+genetic::genetic(int newcities,int toursgen, int numbgen, double permut)
 {
+    using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::milliseconds;
+    using std::chrono::minutes;
     numcities = newcities;
-    cout << "enter the number of tours per generation" << endl;
-    cin >> tourspergen;
-    cout << "enter the percent of the tours that will be mutated, as a decimal" << endl;
-    cin >> percentmutations;
-    cout << "enter the number of generations" << endl;
-    cin >> numgens;
     NUMELEMENTS = numcities;
+    numgens = numbgen;
+    tourspergen = toursgen;
+    percentmutations = permut;
     currentgen = new int* [tourspergen];
     for (int i = 0; i < tourspergen; ++i) {
         currentgen[i] = new int[numcities];
@@ -37,13 +39,19 @@ genetic::genetic(int newcities)
     for (int i = 0; i < numcities; i++) {
         s[i] = i;
     }
+    auto t1 = high_resolution_clock::now();
     perm2(tourspergen);
     sortingalgorithm();
     elite1 = currentgen[0];
     elite2 = currentgen[1];
     genscompleted = 1;
     newgens();
+    auto t2 = high_resolution_clock::now();
+    auto min_int = duration_cast<minutes>(t2 - t1);
+    auto sec_int = duration_cast<milliseconds>(t2 - t1);
+    cout <<"genetic algoritm took "<< sec_int.count()<<" milliseconds which works out to "<<min_int.count()<<" minutes" << endl;
 }
+
 
 void genetic::perm2(int permsthiscall)
 {
@@ -143,9 +151,11 @@ void genetic::newgens()
 
 double genetic::getbest()
 {
+    double elite1cost = 0;
+    double elite2cost = 0;
     for (int i = 0; i < numcities-1; i++) {
-        elite1cost = elite1cost + costmatrix[elite1[i]][elite1[i+1]];
-        //elite2cost = elite2cost + costmatrix[elite2[i]][elite2[i+1]];
+        elite1cost  = elite1cost + costmatrix[elite1[i]][elite1[i + 1]];
+        elite2cost = elite2cost + costmatrix[elite2[i]][elite2[i+1]];
     }
     return elite1cost;
 }

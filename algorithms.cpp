@@ -3,6 +3,11 @@
 
 algorithms::algorithms(int newcities)
 {
+    using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::seconds;
+    using std::chrono::minutes;
     numcities = newcities;
     NUMELEMENTS = numcities;
     currentbestcost = 1000000;
@@ -27,7 +32,12 @@ algorithms::algorithms(int newcities)
     for (int i = 0; i < numcities; i++) {
         s[i] = i;
     }
+    auto t1 = high_resolution_clock::now();
     BF();
+    auto t2 = high_resolution_clock::now();
+    auto min_int = duration_cast<minutes>(t2 - t1);
+    auto sec_int = duration_cast<seconds>(t2 - t1);
+    cout<<"brute force took " << sec_int.count()<<" seconds, which works out to "<<min_int.count()<<" minutes"<< endl;
   }
 
 void algorithms::BF()

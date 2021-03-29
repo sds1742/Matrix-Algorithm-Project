@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include <utility>
+#include <chrono>
 using namespace std;
 class genetic
 {
@@ -18,18 +19,15 @@ private:
 	int** currentgen;
 	int currentcost;
 	int* elite1;
-	double elite1cost;
 	int* elite2;
-	double elite2cost;
 	int timesprinted;
 	int genscompleted;
 public:
-	genetic(int newcities);
+	genetic(int newcities,int toursgen,int numbgen,double permut);
 	void perm2(int permsthiscall);
 	void printS(int start);
 	void sortingalgorithm();
 	void mutate(int i);
 	void newgens();
 	double getbest();
-	
 };
