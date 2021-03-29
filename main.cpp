@@ -2,6 +2,7 @@
 #include "genetic.h"
 
 int main() {
+	cout << "enter the number of cities"<<endl;
 	int numbercities;
 	cin >> numbercities;
 	cout << "enter the number of tours per generation" << endl;
@@ -17,6 +18,6 @@ int main() {
 	algorithms a(numbercities);
 	double x = g.getbest();
 	double y = a.getcurrentbestcost();
-	cout<<"the genetic algorithm was " << (x / y)*100<<"% accurate" << endl;
+	cout<<"the genetic algorithm was " << (x / y)*100<<" percent accurate" << endl;
 	return 0;
 }
